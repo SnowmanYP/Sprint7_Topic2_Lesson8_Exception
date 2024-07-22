@@ -3,10 +3,10 @@ import exceptions.ValidateNameException;
 import exceptions.ValidatePasswordException;
 import storage.PasswordMemoryStorage;
 import storage.PasswordStorage;
-import validators.NameValidator;
 import validators.PasswordLengthValidator;
 import validators.PasswordStrengthValidator;
 import validators.Validator;
+import validators.NameValidator;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +19,8 @@ class Practicum {
             new PasswordLengthValidator(5), new PasswordStrengthValidator()
     );
 
-    private static final List<Validator> nameValidators = List.of(new NameValidator(/*???*/)); // поработайте со списком
+    private static final List<Validator> nameValidators = List.of(
+            new NameValidator()); // поработайте со списком
 
     public static void main(String[] args) {
         loop();
@@ -48,22 +49,26 @@ class Practicum {
 
     private static void addUser() {
         final PasswordStorage storage = new PasswordMemoryStorage();
-        // добавьте отлов исключения ValidateNameException
+        // добавьте отлов исключений ValidateNameException и ValidatePasswordException
         // закройте хранилище
         try {
             storage.open();
             System.out.println("Введите имя пользователя => ");
             final String name = scanner.nextLine();
             checkValidatorRules(nameValidators, name);
-            final String password = storage.get(name);
-            System.out.println(String.format("Пароль пользователя %s = %s", name, password));
-        }catch (ValidateNameException e) {
+            System.out.println("Введите пароль пользователя => ");
+            final String password = scanner.nextLine();
+            checkValidatorRules(passwordValidators, password);
+            storage.store(name, password);
+        }  catch (ValidateNameException e) {
             System.out.println("Ошибка валидации имени: " + e.getMessage());
+        } catch (ValidatePasswordException e) {
+            System.out.println("Ошибка валидации пароля: " + e.getMessage());
         } catch (ValidateException e) {
             System.out.println("Ошибка валидации: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("Ошибка работы с хранилищем: " + e.getMessage());
-        } finally {
+        }  finally {
             storage.close();
         }
     }
@@ -79,16 +84,15 @@ class Practicum {
             checkValidatorRules(nameValidators, name);
             final String password = storage.get(name);
             System.out.println(String.format("Пароль пользователя %s = %s", name, password));
-        } catch (ValidateNameException e) {
-            System.out.println("Ошибка валидации имени: " + e.getMessage());
         } catch (ValidatePasswordException e) {
             System.out.println("Ошибка валидации пароля: " + e.getMessage());
-        }
-        catch (ValidateException e) {
+        } catch (ValidateNameException e) {
+            System.out.println("Ошибка валидации имени: " + e.getMessage());
+        } catch (ValidateException e) {
             System.out.println("Ошибка валидации: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("Ошибка работы с хранилищем: " + e.getMessage());
-        } finally {
+        }  finally {
             storage.close();
         }
     }

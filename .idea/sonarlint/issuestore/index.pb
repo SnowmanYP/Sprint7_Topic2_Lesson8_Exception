@@ -116,3 +116,5 @@ Q.idea/sonarlint/securityhotspotstore/8/f/8fb5c5168b9956df1139c08a22017d2310b906
 Q.idea/sonarlint/securityhotspotstore/9/6/9695f4b50e2ffdbe02b2f1699559f14d9d6c76f5,5\d\5d86a46fd4f65253d4783528db6210fd84fe7011
 w
 G.idea/sonarlint/issuestore/9/1/918f01ab6c06d8c4948b7adde920b26d9f14b6cb,b\8\b89cf97053024e2b236da5c62f9976f1d7fbca80
+C
+src/Practicum2.java,7\b\7b536d457694168cc117b95c5432331695b4c128
